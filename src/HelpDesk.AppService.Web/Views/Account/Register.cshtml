@@ -1,0 +1,71 @@
+﻿@model RegisterViewModel
+@using HelpDesk.AppService.Web.Controllers
+@using HelpDesk.AppService.Web.Models.AccountViewModels
+
+@{
+    Layout = "_BlankLayout";
+    ViewData["Title"] = "Register";
+}
+
+@section PageStyles {
+    <link rel="stylesheet" href="~/vendor/css/pages/page-auth.css">
+}
+
+@* ************** Content ************** *@
+
+<div class="container-xxl">
+    <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner">
+
+            <!-- Register Card -->
+            <div class="card">
+                <div class="card-body">
+                    <!-- Logo -->
+                    <div class="app-brand justify-content-center">
+                        <a href="/" class="app-brand-link gap-2">
+                            <span class="app-brand-logo demo">@await Html.PartialAsync("../_Partials/_Macros")</span>
+                            <span class="app-brand-text demo text-body fw-bold">@TempData.Peek("appName")</span>
+                        </a>
+                    </div>
+                    <!-- /Logo -->
+                    <h4 class="mb-2">Adventure starts here 🚀</h4>
+                    <p class="mb-4">Make your app management easy and fun!</p>
+
+                    <form id="formAuthentication" class="mb-3" asp-action="@nameof(AccountController.Register)" method="POST">
+                        <div class="mb-3">
+                            <label for="Name" class="form-label">Name</label>
+                            <input type="text" class="form-control" asp-for="Name" placeholder="Enter your name" autofocus>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Surname" class="form-label">Surname</label>
+                            <input type="text" class="form-control" asp-for="Surname" placeholder="Enter your surname">
+                        </div>
+                        <div class="mb-3">
+                            <label for="Email" class="form-label">Email</label>
+                            <input type="text" class="form-control" asp-for="Email" placeholder="Enter your email">
+                        </div>
+                        <div class="mb-3 form-password-toggle">
+                            <label class="form-label" for="Password">Password</label>
+                            <div class="input-group input-group-merge">
+                                <input type="password" class="form-control" asp-for="Password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
+                                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary d-grid w-100">
+                            Sign up
+                        </button>
+                    </form>
+
+                    <p class="text-center">
+                        <span>Already have an account?</span>
+                        <a asp-action="@nameof(AccountController.Login)">
+                            <span>Sign in instead</span>
+                        </a>
+                    </p>
+                </div>
+            </div>
+            <!-- Register Card -->
+        </div>
+    </div>
+</div>

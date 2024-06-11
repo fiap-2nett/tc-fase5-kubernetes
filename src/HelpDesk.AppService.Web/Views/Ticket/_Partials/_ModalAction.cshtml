@@ -1,0 +1,106 @@
+﻿@model TicketActionViewModel
+
+@using HelpDesk.AppService.Application.Core.Abstractions.Services
+@using HelpDesk.AppService.Web.Controllers
+@using HelpDesk.AppService.Web.Enumerators
+@using HelpDesk.AppService.Web.Models.TicketViewModels
+@using HelpDesk.AppService.Web.Extensions
+
+@inject IUserService _userService
+@inject ITicketService _ticketService
+
+@{
+    var modalTitle = ((ActionType)Model.IdActionType) switch
+    {
+        ActionType.Create => "New ticket",
+        ActionType.Edit => "Edit ticket",
+        ActionType.AssignTo => "Assign ticket to...",
+        ActionType.ChangeStatusTo => "Change ticket status to...",
+        ActionType.Cancellation => "Ticket cancellation",
+        _ => throw new ArgumentException("Invalid ActionType")
+    };
+
+    var categories = (await _ticketService.GetCategoriesAsync())
+        .ToSelectList(
+            text => text.Name,
+            value => value.IdCategory.ToString(),
+            selected => selected.IdCategory == Model.IdCategory
+        );
+
+    var statusList = (await _ticketService.GetTicketStatusAsync())
+        .ToSelectList(
+            text  => text.Name,
+            value => value.IdStatus.ToString()
+        );
+
+    var userList = (await _userService.GetAnalysts())        
+        .ToSelectList(
+            text  => text.FullName,
+            value => value.IdUser.ToString(),
+            selected => selected.IdUser == Model.IdUserAssigned
+        );
+}
+
+<div class="modal-dialog modal-dialog-centered" role="document">
+    <form id="formTicketAction" class="modal-content" asp-controller="Ticket" asp-action="@nameof(TicketController.DoActionTicket)" asp-route-id="@Model.IdTicket" method="POST">
+        <input type="hidden" asp-for="IdTicket" />
+        <input type="hidden" asp-for="IdActionType" />
+
+        <div class="modal-header">
+            <h5 class="modal-title" id="modalCenterTitle">@modalTitle</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+            @if (Model.IdActionType == (byte)ActionType.Create || Model.IdActionType == (byte)ActionType.Edit)
+            {
+                <div class="row">
+                    <div class="mb-3">
+                        <label class="form-label" asp-for="IdCategory">Category</label>
+                        @Html.DropDownListFor(m => m.IdCategory, categories, "Select Category", new { @class = "form-select" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-3">
+                        <label class="form-label" asp-for="Description">Description</label>
+                        <textarea class="form-control" asp-for="Description" placeholder="Enter the details of your request."></textarea>
+                    </div>
+                </div>
+            }
+
+            @if (Model.IdActionType == (byte)ActionType.AssignTo)
+            {
+                <div class="row">
+                    <div class="mb-3">
+                        <label class="form-label" asp-for="IdUserAssigned">Assign to</label>
+                        @Html.DropDownListFor(m => m.IdUserAssigned, userList, "Select User", new { @class = "form-select" })
+                    </div>
+                </div>
+            }
+
+            @if (Model.IdActionType == (byte)ActionType.ChangeStatusTo)
+            {                
+                <div class="row">
+                    <div class="mb-3">
+                        <label class="form-label" asp-for="IdStatusChanged">Change to</label>
+                        @Html.DropDownListFor(m => m.IdStatusChanged, statusList, "Select Status", new { @class = "form-select" })
+                    </div>
+                </div>
+            }
+
+            @if (Model.IdActionType == (byte)ActionType.Cancellation)
+            {                
+                <div class="row">
+                    <div class="mb-3">
+                        <label class="form-label" asp-for="CancellationReason">Reason for cancellation</label>
+                        <textarea class="form-control" asp-for="CancellationReason" placeholder="Enter cancellation details."></textarea>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" id="btnSubmitAction">Save changes</button>
+        </div>
+    </form>
+</div>

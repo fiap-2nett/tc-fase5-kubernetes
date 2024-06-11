@@ -1,0 +1,62 @@
+﻿@model PagedListResponseModel<TicketModel>
+@using HelpDesk.AppService.Application.Core.Abstractions.ExternalService.Enumerations
+@using HelpDesk.AppService.Application.Core.Abstractions.ExternalService.Models
+@using HelpDesk.AppService.Web.Controllers
+@using HelpDesk.AppService.Web.Enumerators
+
+@{
+    ViewData["Title"] = "Dashboard - Tickets";
+}
+
+@* ************** Content ************** *@
+<h4 class="py-3 mb-4">
+    <span class="text-muted fw-light">Dashboard /</span> Tickets
+</h4>
+
+<!-- Actions -->
+<div class="row mb-3">
+    <div class="col-12 d-flex justify-content-md-end">
+        <a class="btn btn-primary hd-action-button" href="javascript:void(0);" data-ticket-id="0" data-action-type="@((byte)ActionType.Create)"> Create Ticket</a>
+    </div>
+</div>
+<!--/ Actions -->
+
+<!-- Tickets Table -->
+<div class="card">
+    <h5 class="card-header">Tickets List</h5>     
+    <div class="table-responsive text-nowrap">
+        <table id="tableTickets" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Requested by</th>
+                    <th>Assigned to</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                @await Html.PartialAsync("~/Views/Home/_Partials/_TableRows.cshtml", Model?.Items)
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Model Actions -->
+    <div class="modal fade" id="modalActions" data-bs-backdrop="static" tabindex="-1" aria-hidden="true"></div>
+    <!--/ Model Actions -->
+</div>
+<!--/ Tickets Table -->
+
+<!-- Toast with Placements -->
+<div class="bs-toast toast toast-placement-ex m-2 top-0 end-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000">
+    <div class="toast-header">
+        <i class="bx bx-bell me-2"></i>
+        <div class="me-auto fw-medium toast-title"></div>
+        <small>now</small>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body"></div>
+</div>
+<!--/ Toast with Placements -->

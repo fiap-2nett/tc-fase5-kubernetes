@@ -1,0 +1,85 @@
+﻿@using HelpDesk.AppService.Web.Controllers
+@{
+    TempData.Keep();
+    string currentPage = ViewContext.HttpContext.Request.Path;
+}
+
+<!-- Menu -->
+@* ! Do this simple *@
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+
+    @* ! Hide app brand if navbar-full *@
+    <div class='app-brand demo @((@ViewData["navbarFull"] != null && Convert.ToBoolean(@ViewData["navbarFull"])) ? "d-xl-none" : "")'>
+        <a asp-controller="Dashboards" asp-action="Index" class="app-brand-link">
+            <span class="app-brand-logo demo">
+                @await Html.PartialAsync("../_Partials/_Macros")
+            </span>
+            <span class="app-brand-text demo menu-text fw-bold ms-2">@TempData.Peek("appName")</span>
+        </a>
+
+        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+            <i class="bx bx-chevron-left bx-sm align-middle"></i>
+        </a>
+    </div>
+
+    <div class="menu-inner-shadow"></div>
+
+    @* ! Full version menu-items *@
+    <ul class="menu-inner py-1">
+        <!-- Dashboards -->
+        <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/Home/") ? " active" : "")'>
+            <a href="/" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div>Dashboards</div>                
+            </a>            
+        </li>
+
+        <!-- Ticket Settings  -->
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">Ticket Settings</span>
+        </li>
+
+        <!-- Settings -->
+        <li class='menu-item@(currentPage == "/Ticket/Categories" ? " active" : "")'>
+            <a asp-controller="Ticket" asp-action="@nameof(TicketController.Categories)" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-spreadsheet"></i>
+                <div>Categories</div>
+            </a>
+        </li>
+        <li class='menu-item@(currentPage == "/Ticket/Status" ? " active" : "")'>
+            <a asp-controller="Ticket" asp-action="@nameof(TicketController.Status)" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-spreadsheet"></i>
+                <div>Status</div>
+            </a>
+        </li>
+
+        <!-- Misc -->
+        <li class="menu-header small text-uppercase"><span class="menu-header-text">Misc</span></li>
+        <li class="menu-item">
+            <a href='@TempData.Peek("githubUrl")' target="_blank" class="menu-link">
+                <i class="menu-icon tf-icons bx bxl-github"></i>
+                <div>Github</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href='@TempData.Peek("documentation")' target="_blank" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-file"></i>
+                <div>Documentation</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href='@TempData.Peek("observability")' target="_blank" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-health"></i>
+                <div>Observability logs</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href='@TempData.Peek("swaggerUrl")' target="_blank" class="menu-link">
+                <i class="menu-icon tf-icons bx bxs-file-doc"></i>
+                <div>ApiService Swagger</div>
+            </a>
+        </li>
+    </ul>
+
+</aside>
+<!-- / Menu -->

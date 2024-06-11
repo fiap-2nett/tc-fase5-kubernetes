@@ -1,0 +1,125 @@
+﻿@model LoginViewModel
+@using HelpDesk.AppService.Web.Controllers
+@using HelpDesk.AppService.Web.Models.AccountViewModels
+
+@{
+    Layout = "_BlankLayout";
+    ViewData["Title"] = "Login";
+}
+
+@section PageStyles {
+    <link rel="stylesheet" href="~/vendor/css/pages/page-auth.css">
+}
+
+@* ************** Content ************** *@
+
+<div class="container-xxl">
+    <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner">
+            <!-- Register -->
+            <div class="card">
+                <div class="card-body">
+                    <!-- Logo -->
+                    <div class="app-brand justify-content-center">
+                        <a href="/" class="app-brand-link gap-2">
+                            <span class="app-brand-logo demo">@await Html.PartialAsync("../_Partials/_Macros")</span>
+                            <span class="app-brand-text demo text-body fw-bold">@TempData.Peek("appName")</span>
+                        </a>
+                    </div>
+                    <!-- /Logo -->
+                    <h4 class="mb-2">Welcome to @TempData.Peek("appName")! 👋</h4>
+                    <p class="mb-4">Please sign-in to your account and start the adventure</p>
+
+                    <form id="formAuthentication" class="mb-3" asp-action="@nameof(AccountController.Login)" method="POST">
+                        <div class="mb-3">
+                            <label for="Email" class="form-label">Email</label>
+                            <input type="text" class="form-control" asp-for="Email" placeholder="Enter your email" autofocus>
+                        </div>
+                        <div class="mb-3 form-password-toggle">
+                            <div class="d-flex justify-content-between">
+                                <label class="form-label" for="Password">Password</label>
+                            </div>
+                            <div class="input-group input-group-merge">
+                                <input type="password" class="form-control" asp-for="Password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
+                                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" asp-for="RememberMe">
+                                <label class="form-check-label" for="RememberMe">
+                                    Remember Me
+                                </label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+                        </div>
+                    </form>
+
+                    <p class="text-center">
+                        <span>New on our platform?</span>
+                        <a asp-action="@nameof(AccountController.Register)" >
+                            <span>Create an account</span>
+                        </a>
+                    </p>
+                </div>
+            </div>
+            <!-- /Register -->
+        </div>
+    </div>
+</div>
+
+
+
+@* @model LoginViewModel
+@using HelpDesk.AppService.Web.Models.AccountViewModels
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<h1>@ViewData["Title"]</h1>
+<div class="row">
+    <div class="col-md-4">
+        <section>
+            <form id="account" method="post">
+                <h2>Use a local account to log in.</h2>
+                <hr />
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                    <label asp-for="Email" class="form-label">Email</label>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+                    <label asp-for="Password" class="form-label">Password</label>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="checkbox mb-3">
+                    <label asp-for="RememberMe" class="form-label">
+                        <input class="form-check-input" asp-for="RememberMe" />
+                        @Html.DisplayNameFor(m => m.RememberMe)
+                    </label>
+                </div>
+                <div>
+                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+                </div>
+                <div>
+                    <p>
+                        <a id="forgot-password" asp-action="ForgotPassword">Forgot your password?</a>
+                    </p>
+                    <p>
+                        <a asp-action="Register" asp-route-returnUrl="@ViewData["ReturnUrl"]">Register as a new user</a>
+                    </p>                    
+                </div>
+            </form>
+        </section>
+    </div>   
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+ *@

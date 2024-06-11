@@ -1,0 +1,23 @@
+services:
+  helpdesk.db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: helpdesk.db
+
+  helpdesk.log:
+    image: datalust/seq:latest
+    container_name: helpdesk.log
+
+  helpdesk.apiservice.api:
+    image: ${DOCKER_REGISTRY-}helpdesk-apiservice-api
+    container_name: helpdesk.apiservice.api
+    build:
+      context: .
+      dockerfile: src/HelpDesk.ApiService.Api/Dockerfile
+
+  helpdesk.appservice.web:
+    image: ${DOCKER_REGISTRY-}helpdesk-appservice-web
+    container_name: helpdesk.appservice.web
+    build:
+      context: .
+      dockerfile: src/HelpDesk.AppService.Web/Dockerfile
+

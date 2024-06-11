@@ -1,0 +1,58 @@
+services:
+  helpdesk.db:
+    volumes:
+      - ./.containers/sqlserver:/var/opt/mssql/data
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=yourStrong(!)Password
+
+  helpdesk.log:
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - 5341:5341
+      - 8081:80
+
+  helpdesk.apiservice.api:  
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=helpdesk
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/helpdesk.pfx
+      - ConnectionStrings__HelpDeskDb=Server=helpdesk.db,1433;Database=HelpDeskDb;User=sa;Password=yourStrong(!)Password;Encrypt=False;
+      - Jwt__Issuer=https://helpdesk.apiservice.api/
+      - Jwt__Audience=https://helpdesk.apiservice.api/
+      - Jwt__Security=WvvWzuqwJ5DvDGaRRVnKCuL2k35aEhiY0qoKR7qj0gVn3f6PxwPnhbB2VPp82gLH
+      - Jwt__TokenExpirationInMinutes=60      
+    depends_on:
+      - helpdesk.db
+      - helpdesk.log
+    ports:
+      - "5001:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ./docker/aspnet/https:/root/.aspnet/https:ro
+
+  helpdesk.appservice.web:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=helpdesk
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/helpdesk.pfx      
+      - Jwt__Issuer=https://helpdesk.apiservice.api/
+      - Jwt__Audience=https://helpdesk.apiservice.api/
+      - Jwt__Security=WvvWzuqwJ5DvDGaRRVnKCuL2k35aEhiY0qoKR7qj0gVn3f6PxwPnhbB2VPp82gLH
+      - Jwt__TokenExpirationInMinutes=60
+      - ExternalService__Url=https://helpdesk.apiservice.api/
+      - ExternalService__TokenName=HelpDeskApi.Token
+      - ExternalService__RequestTimeoutInSeconds=120
+    depends_on:
+      - helpdesk.log
+      - helpdesk.apiservice.api
+    ports:
+      - "5002:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ./docker/aspnet/https:/root/.aspnet/https:ro

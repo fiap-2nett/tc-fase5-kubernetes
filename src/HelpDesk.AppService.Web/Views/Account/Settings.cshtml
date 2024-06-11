@@ -1,0 +1,46 @@
+﻿@model SettingsViewModel
+@using HelpDesk.AppService.Web.Controllers
+@using HelpDesk.AppService.Web.Models.AccountViewModels
+
+@{
+    ViewData["Title"] = "Account settings - Account";
+}
+
+@* ************** Content ************** *@
+<h4 class="py-3 mb-4">
+    <span class="text-muted fw-light">Account Settings /</span> Account
+</h4>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <h5 class="card-header">Profile Details</h5>
+            <!-- Account -->
+            <div class="card-body">
+                <form id="formAccountSettings" class="account-forms" asp-action="@nameof(AccountController.Settings)" method="POST">
+                    <div class="row">
+                        <div class="mb-3 col-md-12">
+                            <div class="form-group">
+                                <label asp-for="Name" class="form-label">Name</label>
+                                <input class="form-control" type="text" asp-for="Name" placeholder="Enter your name" autofocus />
+                                <span asp-validation-for="Name" class="error"></span>                            
+                            </div>
+                        </div>
+                        <div class="mb-3 col-md-12">
+                            <div class="form-group">
+                                <label asp-for="Surname" class="form-label">Surname</label>
+                                <input class="form-control" type="text" asp-for="Surname" placeholder="Enter your surname" />
+                                <span asp-validation-for="Surname" class="error"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <button type="submit" class="btn btn-primary me-2">Save changes</button>
+                        <button type="reset" class="btn btn-outline-secondary">Cancel</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /Account -->
+        </div>
+    </div>
+</div>

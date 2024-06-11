@@ -1,0 +1,49 @@
+﻿@model IEnumerable<TicketModel>
+@using HelpDesk.AppService.Application.Core.Abstractions.ExternalService.Models
+@using HelpDesk.AppService.Application.Core.Abstractions.ExternalService.Enumerations
+@using HelpDesk.AppService.Web.Enumerators
+@using HelpDesk.AppService.Web.Extensions
+
+@{
+    string GetStatusBadge(StatusModel model) => (TicketStatuses)model?.IdStatus switch
+    {
+        TicketStatuses.New          => "badge bg-primary",    /* New */
+        TicketStatuses.Assigned     => "badge bg-info",       /* Assigned */
+        TicketStatuses.InProgress   => "badge bg-warning",    /* InProgress */
+        TicketStatuses.OnHold       => "badge bg-dark",       /* OnHold */
+        TicketStatuses.Completed    => "badge bg-success",    /* Completed */
+        TicketStatuses.Cancelled    => "badge bg-danger",     /* Cancelled */
+        _ => "badge bg-primary"
+    };
+}
+
+@if (!Model.IsNullOrEmpty())
+{
+    @foreach (var ticket in Model.OrderByDescending(ticket => ticket.IdTicket))
+    {
+        <tr>
+            <td>@ticket.IdTicket</td>
+            <td>@ticket.Description</td>
+            <td>@ticket.Category?.Name</td>
+            <td><span class="@GetStatusBadge(ticket.Status)">@ticket.Status?.Name</span></td>
+            <td>@ticket.UserRequester.FullName</td>
+            <td>@ticket.UserAssigned?.FullName</td>
+            <td>
+                <div class="dropdown">
+                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item hd-action-button" href="javascript:void(0);" data-ticket-id="@ticket.IdTicket" data-action-type="@((byte)ActionType.Edit)"><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                        <hr class="dropdown-divider" />
+                        <a class="dropdown-item hd-action-button" href="javascript:void(0);" data-ticket-id="@ticket.IdTicket" data-action-type="@((byte)ActionType.AssignTo)"><i class="bx bx-user-plus me-1"></i> Assign to ...</a>
+                        <a class="dropdown-item hd-action-button" href="javascript:void(0);" data-ticket-id="@ticket.IdTicket" data-action-type="@((byte)ActionType.AssignToMe)"><i class="bx bx-user-check me-1"></i> Assign to Me</a>
+                        <hr class="dropdown-divider" />
+                        <a class="dropdown-item hd-action-button" href="javascript:void(0);" data-ticket-id="@ticket.IdTicket" data-action-type="@((byte)ActionType.ChangeStatusTo)"><i class="bx bx-refresh me-1"></i> Status to ...</a>
+                        <a class="dropdown-item hd-action-button" href="javascript:void(0);" data-ticket-id="@ticket.IdTicket" data-action-type="@((byte)ActionType.ChangeStatusToComplete)"><i class="bx bx-check-shield me-1"></i> Status to Complete</a>
+                        <hr class="dropdown-divider" />
+                        <a class="dropdown-item hd-action-button" href="javascript:void(0);" data-ticket-id="@ticket.IdTicket" data-action-type="@((byte)ActionType.Cancellation)"><i class="bx bx-trash me-1"></i> Cancel</a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
+}
