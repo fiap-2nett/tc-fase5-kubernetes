@@ -1,0 +1,287 @@
+# pfx-secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: pfx-secret
+data:
+  helpdesk.pfx: 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
+
+---
+# tls-secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tls-secret
+data:
+  tls.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURUekNDQWplZ0F3SUJBZ0lVY2hITjNYSkhhYXJ1eHpJUmg1MUVVdTB2bXlZd0RRWUpLb1pJaHZjTkFRRUwKQlFBd056RWlNQ0FHQTFVRUF3d1phR1ZzY0dSbGMyc3VNVEkzTGpBdU1DNHhMbTVwY0M1cGJ6RVJNQThHQTFVRQpDZ3dJYUdWc2NHUmxjMnN3SGhjTk1qUXdOakUwTURBd05USTNXaGNOTWpVd05qRTBNREF3TlRJM1dqQTNNU0l3CklBWURWUVFEREJsb1pXeHdaR1Z6YXk0eE1qY3VNQzR3TGpFdWJtbHdMbWx2TVJFd0R3WURWUVFLREFob1pXeHcKWkdWemF6Q0NBU0l3RFFZSktvWklodmNOQVFFQkJRQURnZ0VQQURDQ0FRb0NnZ0VCQUkrS3ZrREFyQThKZThJbQpYSnIzT0hBUDEyK3dXVEdsdUtublJ6Sk1vZm5yNENEbmpRTmliQU9WbkxIaFpyc2o1OVFaVmlxR3EvUktDakhwCngrclBuV1FTWkxjcHZJL2hxVURoMWZvU0VkZVlBREJ0YmJDR0ZETzhRcnhDNEsvaG1PMG1NZnJmT0JjQ3lsaG0Kc0FDeGt6R1lRRkpXNFo4WDdYZVdOTHQzZzE3WDMxUGVTWXpvS3JFdThxUzlxd2xrV1o0WXl5SXo4Nm1TOXQ4Twp0eEphTVc4NmNDNnIrRGxneXNiSHJVRTRvWFpCMUtqbVM1STk1NHpkdzFHSVB3dUFtM3RmOXRicmkxOEhxa2FiClpZVW9pM0w2cXpUaTB0RjVpbVdHSEZhWFk2dDFHdm43MFlxQW1QckpaL0c3ZndMOFVxOEl5K28zdlllMjNJajQKbDk4N0M5VUNBd0VBQWFOVE1GRXdIUVlEVlIwT0JCWUVGT0M1TGF0c2c2U05MSDR4T0FqdDlRdmt3WlNrTUI4RwpBMVVkSXdRWU1CYUFGT0M1TGF0c2c2U05MSDR4T0FqdDlRdmt3WlNrTUE4R0ExVWRFd0VCL3dRRk1BTUJBZjh3CkRRWUpLb1pJaHZjTkFRRUxCUUFEZ2dFQkFFYUNJQ0JxaDNIT21nMWRWTitDeldIQVp5NnUvMzJWMzRLbGVBdFcKNkdWc1VNZVYwZFIyR2MxbWNNYko3YmRkRDJyam5sdGlXTmJxeUdlaHdTS0pqb2lYaStsV2tpazF5dXAyckxiRgo4NXJLalVCbFBxN3JjNnlXd1EwZjRaVHYvK0xBaDg2RDlobFV4OURjMnA1eFpOaG9CRDVPbWNIandmZnZTWEQ4ClhUS1JhMkxWdGg0WktVeTVzZ3hCQjNsWEovaWt3SnVhZUY4VXVVeGtESTVTVEh6cDJBMDVDbEdEYWcvTUEyYkgKMkZWUE5qTTB0dzBqWVBFSEU3eDhtVmVQQWtBK0pQQkpuczBmSjI0dmw1NFNQZ2xJRTkwVXorVytCS1RDNGc4NwpyZm5qOVkwYSt5bDFwZWdXYkplV2RlWXh4MXVRN1E0WUhUdkQ2cEl0ZXRPYXplbz0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
+  tls.key: LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JSUV1d0lCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQktVd2dnU2hBZ0VBQW9JQkFRQ1BpcjVBd0t3UENYdkMKSmx5YTl6aHdEOWR2c0ZreHBiaXA1MGN5VEtINTYrQWc1NDBEWW13RGxaeXg0V2E3SStmVUdWWXFocXYwU2dveAo2Y2ZxejUxa0VtUzNLYnlQNGFsQTRkWDZFaEhYbUFBd2JXMndoaFF6dkVLOFF1Q3Y0Wmp0SmpINjN6Z1hBc3BZClpyQUFzWk14bUVCU1Z1R2ZGKzEzbGpTN2Q0TmUxOTlUM2ttTTZDcXhMdktrdmFzSlpGbWVHTXNpTS9PcGt2YmYKRHJjU1dqRnZPbkF1cS9nNVlNckd4NjFCT0tGMlFkU281a3VTUGVlTTNjTlJpRDhMZ0p0N1gvYlc2NHRmQjZwRwptMldGS0l0eStxczA0dExSZVlwbGhoeFdsMk9yZFJyNSs5R0tnSmo2eVdmeHUzOEMvRkt2Q012cU43Mkh0dHlJCitKZmZPd3ZWQWdNQkFBRUNnZjhCeXltZ3I4a2NpanVPSWxQY1RCRHJLWDlRVndoNzRqTmIzbTZBcWxJMUpkbkYKOE9RRW0wNDNIaXNqN0phVnl0RlJHYTh1MEFxQmxGRFV2WFVTVXVWQk5hamRDTkdYWVhTNWczTjA1ajNPTHRSLwpEV1FpQW5mTW1HYjBKRGIxNkJRSmJvK1dKcjF3U3hHSkRhYjBaLzJpUVpBblc5T2o2aUlFcmNiQ25hVXNSNkRNCnZ0eTAzZDdkTGhIdVB3UW96Z2NqTTluQjUxTi9DM01ZcExGNnhRWlhjSkRKTCt5bnJyZ05EWE8zVDdXemIrOG4KYmxLUTVEZ3VxVzJvMStjS0dSRk85ZnJkaUNVTUFEd1JTUE1HYi9BbnQ0Q0d1VlFIZElQdWEyQ1A0bzJrVWUyZgpJcG9nMWt2WDBzNGpOa0RiejR0b3ZQUUZjdVhkd2dINXcwNzBMb1VDZ1lFQXd1K3JmVHkxN2JjZFZtUllwYWRMCnZDUFFWNkJJMjBDNklHVUY2WU9ZV3RuQlJPMTNwOHZCdFpjYnlINnFTTzZWSGduZyswK29CKzZmZ0tvNWQ5MVUKVEtNb1h6TmxQWmp6UjRkVUREZW9YcERSV1FoYmhqL3BrU3daUDFFK2ZLRVpaZzJzSkNDeS9uYy8rR0hOZGR3SgozbjN4dFRjeFoxVEFFeExpbHhxa0dkTUNnWUVBdklHcUg4dW44RXNha0FoOFpld09oajdWYWR0YysrMDJZVTRHCnE5bmZ0a1lSZ25vc1IvQmpLZWMzNVJHZzU5ZTRlRTZKbzNFZFU5TU1LeE9ncHFHcktXMXRWQ1AxOTE3cmZubXgKa3M4N3FCY0d5RWoxeXZ3YnQwRSttT0RwVFhyZG1JcGJkalUydVFIV0Z3WmU1VnhGdHhBM2M0NjRMdzk0T25MZAptMVpkVXJjQ2dZQWVxUnZNQXZTS2d6YTJFK3B0ZzdiQnpOQkVPQTI5anB5MzQ2dmVZcmhmOGNnWVUxRnlydlcwCjNpT2NrVyt2TVBkN1ZncHcvTUp0SFBjeGdaU3dhYnVNb2swRFRFNHNOaFp0dGJkZWhKS1M3U3hBV0xRc2xYamoKUUpCb0NSdE85dmZMdVhMTjYrYTdaMzVFVHYzRi8rbjllTW0vdXdLbVFncEQ5Y0IyQzlhcnlRS0JnQ0lLbkdsUApnczFmRXJYdUFtRDVod254TU9NRDdUL0ZiNnVVeHBta0o4VW4xQ09tNG5ZL1Qva1NPMExQc3lvTEI5SWFCTHNTClEwU08rVVNTTDlISG9qeEIrWnRYUHlUajdFMFR0dUNYTWVQQi9NU1FnR3FlcW5hbWZxSm5BMXF0bEhUbWoydkMKWWxaNG9XdlpCNndOeEwweFhZSXR4TThpMFFobEUrWG9hOFB6QW9HQkFNRlFJK3FVRUtxNTJzazNsY2tkd1NGdQpQSk16Q24yb1VHM0Y5Q0J5S0IvZm1jeGRHMzBuOTc2dllzYVRCVnNsSDZEMmgzN1JCckpxSitEVjhuNDdkODVBCmZrWGZLTlZFYkUxUkQ1aWhFWWJXR05vNk5EbmdOZ3pKemhYdGpDSko3ZmdDamVJbENmZm52QjNDOFQwY05vRjkKbWJ2ZElmUC9wN2hXeHMvdk12akgKLS0tLS1FTkQgUFJJVkFURSBLRVktLS0tLQo=
+type: kubernetes.io/tls
+
+---
+# helpdesk-db-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helpdesk-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helpdesk-db
+  template:
+    metadata:
+      labels:
+        app: helpdesk-db
+    spec:
+      containers:
+      - name: helpdesk-db
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        ports:
+        - containerPort: 1433
+        env:
+        - name: ACCEPT_EULA
+          value: "Y"
+        - name: SA_PASSWORD
+          value: "yourStrong(!)Password"
+        - name: MSSQL_PID
+          value: "Developer"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: helpdesk-db
+spec:
+  selector:
+    app: helpdesk-db
+  ports:
+  - protocol: TCP
+    port: 1433
+    targetPort: 1433
+
+---
+# helpdesk-log.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helpdesk-log
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helpdesk-log
+  template:
+    metadata:
+      labels:
+        app: helpdesk-log
+    spec:
+      containers:
+      - name: helpdesk-log
+        image: datalust/seq:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: ACCEPT_EULA
+          value: "Y"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: helpdesk-log
+spec:
+  selector:
+    app: helpdesk-log
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+
+---
+# helpdesk-api-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helpdesk-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helpdesk-api
+  template:
+    metadata:
+      labels:
+        app: helpdesk-api
+    spec:
+      containers:
+      - name: helpdesk-api
+        image: bfecchio/helpdesk-apiservice-api:latest
+        ports:
+        - containerPort: 443
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Development"
+        - name: ASPNETCORE_URLS
+          value: "https://+:443;http://+:80"
+        - name: ASPNETCORE_Kestrel__Certificates__Default__Password
+          value: "helpdesk"
+        - name: ASPNETCORE_Kestrel__Certificates__Default__Path
+          value: "/root/.aspnet/https/helpdesk.pfx"
+        - name: ConnectionStrings__HelpDeskDb
+          value: "Server=helpdesk-db,1433;Database=HelpDeskDb;User=sa;Password=yourStrong(!)Password;Encrypt=False;"
+        - name: Jwt__Issuer
+          value: "https://helpdesk-api/"
+        - name: Jwt__Audience
+          value: "https://helpdesk-api/"
+        - name: Jwt__Security
+          value: "WvvWzuqwJ5DvDGaRRVnKCuL2k35aEhiY0qoKR7qj0gVn3f6PxwPnhbB2VPp82gLH"
+        - name: Jwt__TokenExpirationInMinutes
+          value: "60"
+        volumeMounts:
+        - name: pfx-volume
+          mountPath: /root/.aspnet/https
+          readOnly: true
+      volumes:
+      - name: pfx-volume
+        secret:
+          secretName: pfx-secret
+          items:
+          - key: helpdesk.pfx
+            path: helpdesk.pfx
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: helpdesk-api
+spec:
+  selector:
+    app: helpdesk-api
+  ports:
+  - protocol: TCP
+    port: 443
+    targetPort: 443  
+
+---
+# helpdesk-web-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helpdesk-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helpdesk-web
+  template:
+    metadata:
+      labels:
+        app: helpdesk-web
+    spec:
+      containers:
+      - name: helpdesk-web
+        image: bfecchio/helpdesk-appservice-web:latest
+        ports:
+        - containerPort: 443
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Development"
+        - name: ASPNETCORE_URLS
+          value: "https://+:443;http://+:80"
+        - name: ASPNETCORE_Kestrel__Certificates__Default__Password
+          value: "helpdesk"
+        - name: ASPNETCORE_Kestrel__Certificates__Default__Path
+          value: "/root/.aspnet/https/helpdesk.pfx"
+        - name: ConnectionStrings__HelpDeskDb
+          value: "Server=helpdesk-db,1433;Database=HelpDeskDb;User=sa;Password=yourStrong(!)Password;Encrypt=False;"
+        - name: Jwt__Issuer
+          value: "https://helpdesk-api/"
+        - name: Jwt__Audience
+          value: "https://helpdesk-api/"
+        - name: Jwt__Security
+          value: "WvvWzuqwJ5DvDGaRRVnKCuL2k35aEhiY0qoKR7qj0gVn3f6PxwPnhbB2VPp82gLH"
+        - name: Jwt__TokenExpirationInMinutes
+          value: "60"
+        - name: ExternalService__Url
+          value: "https://helpdesk-api/"
+        - name: ExternalService__TokenName
+          value: "HelpDeskApi.Token"
+        - name: ExternalService__RequestTimeoutInSeconds
+          value: "120"
+        volumeMounts:
+        - name: pfx-volume
+          mountPath: /root/.aspnet/https
+          readOnly: true
+      volumes:
+      - name: pfx-volume
+        secret:
+          secretName: pfx-secret
+          items:
+          - key: helpdesk.pfx
+            path: helpdesk.pfx
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: helpdesk-web
+spec:
+  selector:
+    app: helpdesk-web
+  ports:
+  - protocol: TCP
+    port: 443
+    targetPort: 443
+
+---
+# helpdesk-ingress-http.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: helpdesk-ingress-http
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: logs.helpdesk.127.0.0.1.nip.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: helpdesk-log
+            port:
+              number: 80
+              
+---
+# helpdesk-ingress-https.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: helpdesk-ingress-https
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"  
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - api.helpdesk.127.0.0.1.nip.io
+    - app.helpdesk.127.0.0.1.nip.io
+    secretName: tls-secret    
+  rules:
+  - host: api.helpdesk.127.0.0.1.nip.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: helpdesk-api
+            port:
+              number: 443
+  - host: app.helpdesk.127.0.0.1.nip.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: helpdesk-web
+            port:
+              number: 443              
