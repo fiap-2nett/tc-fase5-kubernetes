@@ -42,7 +42,7 @@ kubectl get pods -n ingress-nginx
 Verifique se os pods do Ingress Nginx estão em execução:
 
 ```bash
-kubectl get pods -n default -l app.kubernetes.io/name=ingress-nginx
+kubectl get pods -n ingress-nginx
 ```
 
 ## Passo 4: Configurar o Deploy dos Serviços
