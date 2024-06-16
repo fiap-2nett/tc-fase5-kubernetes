@@ -1,6 +1,7 @@
 ﻿@{
     TempData.Keep();
     ViewData["containerNav"] = (ViewData["containerNav"] ??= "container-fluid");
+    var extraInfo = $"{TempData.Peek("authorName")} - Hostname: {TempData.Peek("hostname")}";
 }
 
 <footer class="content-footer footer bg-footer-theme">
@@ -9,8 +10,7 @@
             ©
             <script>
                 document.write(new Date().getFullYear())
-            </script>, made by <a href='@TempData.Peek("authorUrl")' target="_blank"
-                                                                           class="footer-link fw-medium">@TempData.Peek("authorName")</a>
+            </script>, made by <a href='@TempData.Peek("authorUrl")' target="_blank" class="footer-link fw-medium">@extraInfo</a>
         </div>
         <div class="d-none d-lg-inline-block">            
             <a href='@TempData.Peek("authorUrl")' target="_blank" class="footer-link me-4">More Projects</a>

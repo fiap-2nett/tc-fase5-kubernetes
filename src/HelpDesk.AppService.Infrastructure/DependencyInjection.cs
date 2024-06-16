@@ -3,6 +3,7 @@ using HelpDesk.AppService.Application.Core.Abstractions.Authentication;
 using HelpDesk.AppService.Application.Core.Abstractions.ExternalService;
 using HelpDesk.AppService.Infrastructure.Authentication;
 using HelpDesk.AppService.Infrastructure.Authentication.Settings;
+using HelpDesk.AppService.Infrastructure.Cluster.Settings;
 using HelpDesk.AppService.Infrastructure.ExternalService;
 using HelpDesk.AppService.Infrastructure.ExternalService.Handlers;
 using HelpDesk.AppService.Infrastructure.ExternalService.Settings;
@@ -19,6 +20,7 @@ namespace HelpDesk.AppService.Infrastructure
         {
             services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SettingsKey));
             services.Configure<ServiceSettings>(configuration.GetSection(ServiceSettings.SettingsKey));
+            services.Configure<ClusterSettings>(configuration.GetSection(ClusterSettings.SettingsKey));
 
             services.AddScoped<IUserSessionProvider, UserSessionProvider>();
             services.AddScoped<IJwtProvider, JwtProvider>();
