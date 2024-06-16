@@ -1,10 +1,18 @@
-﻿@{
-    TempData["appName"] = "HelpDesk";    
+﻿@using HelpDesk.AppService.Infrastructure.Cluster.Settings
+@using Microsoft.Extensions.Options
+
+@inject IOptions<ClusterSettings> Options
+
+@{
+    var settings = Options?.Value ?? throw new ArgumentNullException(nameof(Options));
+
+    TempData["appName"] = settings.AppName;
     @* Footer & Misc urls *@
-    TempData["authorName"] = "GRUPO 37";
-    TempData["authorUrl"] = "https://github.com/fiap-2nett";
-    TempData["swaggerUrl"] = "https://localhost:5001/swagger/index.html";
-    TempData["githubUrl"] = "https://github.com/fiap-2nett/tc-fase4-clean-architecture";
-    TempData["documentation"] = "https://github.com/fiap-2nett/tc04-Wiki-temp/wiki";
-    TempData["observability"] = "http://localhost:8081";
+    TempData["hostname"] = settings.Hostname;
+    TempData["authorName"] = settings.AuthorName;
+    TempData["authorUrl"] = settings.AuthorUrl;
+    TempData["swaggerUrl"] = settings.SwaggerUrl;
+    TempData["githubUrl"] = settings.ProjectUrl;
+    TempData["documentation"] = settings.WikiUrl;
+    TempData["observability"] = settings.LogsUrl;
 }
