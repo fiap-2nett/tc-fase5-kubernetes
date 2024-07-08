@@ -20,7 +20,6 @@ compreensíveis e que melhor atendem às necessidades do negócio.
 
 A documentação detalhada de Requisitos Funcionais (RF) e Não Funcionais (RNF) pode ser encontrada na Wiki oficial do projeto.
 Além disso, temos capturas de telas do Portal HelpDesk (UI) em funcionamento.
-Vide link abaixo.:
 
 [Wiki Oficial HelpDesk API](https://github.com/fiap-2nett/tc-fase4-clean-architecture/wiki)
 
@@ -47,12 +46,13 @@ Vide link abaixo.:
 - Seq
 - Docker 24.0.5
 - Docker Compose 2.20
-- Kind
-- Kubernetes (kubectl)
+- Kind 0.23.0
+- kubectl 1.30.0
 
 ## Arquitetura do cluster
 
 A solução foi arquitetada da seguinte maneira:
+
 ![Arquitetura do cluster](doc/assets/img/k8s-architecture.png)
 
 Optamos por utilizar o ambiente local para criação e configuração do nosso cluster Kubernetes, para prover as funcionalidades de um cluster
@@ -69,11 +69,24 @@ Para centralizar um único ponto de comunicação externo, e realizar os redirec
 A seguir será descrito todo o processo de instalação e configuração do cluster local passo a passo, após todo este processo ao final será descrito como podemos acessar os serviços providos pelo nosso cluster local.
 
 ## Passo 1: Instalar Dependências
+
 Primeiro, você precisa instalar as ferramentas necessárias:
 
 - Docker
 - Kind
 - kubectl
+
+Após a instalação, verifique as versões das ferramentas mencionadas utilizando os comandos:
+
+```bash
+docker --version
+```
+```bash
+kind --version
+```
+```bash
+kubectl version
+```
 
 ## Passo 2: Criar o Cluster Kubernetes com Kind
 
@@ -145,7 +158,7 @@ As configurações contidas nesse arquivo estão separadas em blocos, cada bloco
 Execute o comando a seguir para aplicar todas as configurações mencionadas acima:
 
 ```bash
-kubectl apply -f k8s/kind/deployment.yaml
+kubectl apply -f k8s/deployment.yaml
 ```
 
 Para monitorar o processamento do deployment e provisionamentos dos services e pods, execute o comando:
