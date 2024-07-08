@@ -1,4 +1,4 @@
-name: tc-fase4-clean-architecture
+name: tc-fase5-kubernetes
 
 on:
   push:
