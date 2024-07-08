@@ -1,13 +1,12 @@
-[![tc-fase4-clean-architecture](https://github.com/fiap-2nett/tc-fase4-clean-architecture/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/fiap-2nett/tc-fase4-clean-architecture/actions/workflows/dotnet.yml)
+[![tc-fase5-kubernetes](https://github.com/fiap-2nett/tc-fase5-kubernetes/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/fiap-2nett/tc-fase5-kubernetes/actions/workflows/dotnet.yml)
 
-# Clean Architecture
+# Cluster Kubernetes
 
-Com o objetivo de manter o foco na criação de uma solução aderente ao Clean Architecture (Arquitetura Limpa) que é um dos entregáveis
-do Tech Challenge 4. Foi reaproveitado o trabalho entregue no Tech Challenge 2.
+Com o objetivo de manter o foco na criação de configuração de um cluster Kubernetes para prover e orquestrar a solução desenvolvida, reutilizamos o projeto desenvolvido no Tech Challenge 4.
 
-Caso queira verificar o projeto entregue na fase anterior, vide link abaixo.:
+Caso queira verificar o projeto entregue na fase anterior, vide link abaixo:
 
-- [Tech Challenge 2](https://github.com/fiap-2nett/tc-fase2-pipeline)
+- [Tech Challenge 4](https://github.com/fiap-2nett/tc-fase4-clean-architecture)
 
 O projeto atualizado no Tech Challenge 4 é altamente baseado em Clean Architecture (Arquitetura Limpa), ou seja,
 projetado com foco na separação de preocupações e na dependência de direção única, o que significa que as partes
@@ -37,151 +36,132 @@ Vide link abaixo.:
 ## Tecnologias Utilizadas
 
 - .NET 7.0
+- Razor
 - Entity Framework Core 7.0
 - FluentValidation 11.7
 - FluentAssertions 6.12
 - NetArchTest 1.3
-- Serilog 7.0
-- Seq
 - XUnit 2.4
+- Serilog 7.0
 - SqlServer 2019
-- Razor
+- Seq
 - Docker 24.0.5
 - Docker Compose 2.20
+- Kind
+- Kubernetes (kubectl)
 
-## Arquitetura, Padrões Arquiteturais e Convenções
+## Arquitetura do cluster
 
-- REST Api
-- Clean Architecture
-- EF Code-first
-- Service Pattern
-- Repository Pattern & Unit Of Work
-- Architecture Tests
-- Integration Tests
-- Unit Tests
+A solução foi arquitetada da seguinte maneira:
+![Arquitetura do cluster](doc/assets/img/k8s-architecture.png)
 
-## Desenho de Arquitetura
+Optamos por utilizar o ambiente local para criação e configuração do nosso cluster Kubernetes, para prover as funcionalidades de um cluster
+local utilizamos o Kind.
 
-A solução foi arquitetada da seguinte maneira.:
+Uma vez tendo os pré-requisitos instalados no host, iremos criar uma novo cluster kubernetes, esse cluster será reponsável por orquestrar
+os containers da nossa aplicação (HelpDesk.Api e HelpDesk.Mvc), também serão orquestrados os containers relacionados a infraestrutura do
+solução, sendo eles: SQL Server 2019 e Seq.
 
-![Desenho da Arquitetura](doc/assets/img/arch_simple_draw.png)
+Para centralizar um único ponto de comunicação externo, e realizar os redirecionamentos optamos por utilizar o NGINX Ingress Controller.
 
-Temos de frente a aplicação HelpDesk.AppService representada na imagem como "WebAppService", que é o Portal HelpDesk (UI) onde
-os clientes, analistas e administradores farão a iteração com o sistema de atendimento de Ticket.
-As ações efetuadas pelos usuários por meio do Portal do HelpDesk são enviadas via requisições "Rest API" para a aplicação
-HelpDesk.ApiService representada na imagem como "ApiService" responsável pelo recebimento, processamento e respostas das
-ações dos usuário para o Portal HelpDesk.
+## Como configurar e executar o cluster local
 
-Ou seja, a parte de apresentação ao usuário está concentrada no projeto HelpDesk.AppService enquanto toda a lógica de negócio está isolada no projeto
-HelpDesk.ApiService o que corrobora com o desacoplamento dos componentes de nossa solução.
+A seguir será descrito todo o processo de instalação e configuração do cluster local passo a passo, após todo este processo ao final será descrito como podemos acessar os serviços providos pelo nosso cluster local.
 
+## Passo 1: Instalar Dependências
+Primeiro, você precisa instalar as ferramentas necessárias:
 
-Ambos os projetos contam com a mesma estruturação de arquitetura, vide à seguir.:
+- Docker
+- Kind
+- kubectl
 
-| Camada                                           | Descrição                                                                                                                                                      |
-|--------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Presentation                                     | Contempla a parte de iteração dos usuários, bem como os endpoints disponiveis para receber requisições de API.                                                 |
-| Application                                      | Responsável por integrar e intermediar as camadas de "Presentation" e "Domain". No Portal HelpDesk por exemplo, coordena as operações entre a UI e o "Domain". |
-| Domain                                           | Camada que concentra toda à regra de negócio da aplicação, com todos os componentes de domínio que são imprescindíveis ao negócio. Seria o "coração" da aplicação se fizéssemos uma analogia.|
-| Infrastructure                                   | Fornece acesso à todos os recursos técnicos necessários para o funcionamento da solução como Banco de Dados, Logs, Gerenciamento de Arquivos e APIs Externas. Em resumo essa camada contém componentes que lidam com detalhes de baixo nível e são geralmente independentes das regras de negócio da aplicação.|
+## Passo 2: Criar o Cluster Kubernetes com Kind
 
-## Modelagem de dados
+Após as ferramentas instaladas, iremos criar nosso cluster no KIND para provisionamento dos serviços e componentes necessários para a execução do nosso projeto.
 
-A HelpDesk API utiliza o paradigma de CodeFirst através dos recursos disponibilizados pelo Entity Framework, no entanto para melhor
-entendimento da modelagem de dados apresentamos a seguir o MER e suas respectivas definições:
+O comando a seguir utiliza a CLI do KIND para criar um novo cluster com o nome `k8s-helpdesk` utilizando como parâmetro de configuração o arquivo de manifesto `kind-config.yaml`.
 
-![DER](doc/assets/img/DER.png)
+Este arquivo contém as parametrizações básicas para dos nodes do tipo:
+- control-plane
+- worker
 
-Com base na imagem acima iremos detalhar as tabelas e os dados contidos em cada uma delas:
+Execute o comando a seguir para criar no novo cluster:
 
-| Schema | Tabela       | Descrição                                                                                       |
-|--------|--------------|-------------------------------------------------------------------------------------------------|
-| dbo    | users        | Tabela que contém os dados referentes aos usuários da plataforma.                               |
-| dbo    | roles        | Tabela que contém os dados referentes aos tipos de perfis de usuário da plataforma.             |
-| dbo    | tickets      | Tabela que contém os dados referentes aos tickets criados na plataforma.                        |
-| dbo    | ticketstatus | Tabela que contém os dados referentes aos possíveis status de tickets.                          |
-| dbo    | categories   | Tabela que contém os dados referentes às categorias de tickets.                                 |
-| dbo    | priorities   | Tabela que contém os dados referentes às prioridades/SLAs relacionado às categorias de tickets. |
-
-## Como executar
-
-A HelpDesk API utiliza como banco de dados o SQL Server 2019 e para o Frontend foi utilizado a sintaxe de marcação Razor.
-Toda a infraestrutura necessária para execução deve ser provisionada automaticamente configurando
-o docker-compose como projeto de inicialização no Visual Studio.
-
-![StartupProject](doc/assets/img/startup_project.png)
-
-Também é possível executar a solução diretamente sem a necessidade do Visual Studio, para tal apenas necessitamos
-do Docker previamente instalado. Para executar a solução diretamente através do Docker, abra um terminal no diretório
-raíz do projeto e execute o seguinte comando:
-
-```sh
-$ docker compose up -d
+```bash
+kind create cluster --config k8s/kind-config.yaml --name k8s-helpdesk
 ```
 
-Após rodar o projeto a iteração pode ser feita pelo link abaixo.:
+## Passo 3: Instalar o Ingress Nginx
 
-https://localhost:5002/
+Um vez configurado o nosso cluster, precisamos configurar o serviço de Ingress Controller para nosso cluster, este serviço nos possibilitará ter um único ponto de acesso aos nossos container em execução sem a necessidades de configurarmos o redirecionamento de portas `port-forward` para cada um de nossos pods.
 
-Alguns usuários fictícios com diferentes perfis de acesso são criados para logar e testar o Portal Helpdesk:
+Existem diversas opções de serviços de Ingress Controller para Kubernetes, para nosso caso de uso optamos por utilizar o Ingress Nginx.
 
-| Usuário                   | Senha       | Perfil        |
-|---------------------------|-------------|---------------|
-| admin@techchallenge.app   | Admin@123   | Administrador |
-| ailton@techchallenge.app  | Ailton@123  | Geral         |
-| bruno@techchallenge.app   | Bruno@123   | Analista      |
-| cecilia@techchallenge.app | Cecilia@123 | Geral         |
-| cesar@techchallenge.app   | Cesar@123   | Analista      |
-| paulo@techchallenge.app   | Paulo@123   | Geral         |
+1. Aplicar os recursos YAML do Ingress Nginx: Vamos aplicar os arquivos YAML diretamente para instalar o Ingress Nginx.
 
-Porém, caso queira você poderá criar o seu próprio usuário através da opção "Create an account".:
-
-![Login](doc/assets/img/login.png)
-
-Depois basta preencher os dados cadastrais.:
-
-![CreatingUser](doc/assets/img/creating_user.png)
-
-*Observação: para novos usuários será atribuído o perfil Geral.*
-
-## REST API
-
-Caso deseje testar somente a API que integra o Backend do Portal HelpDesk é possível executar os passos e comandos do tópico anterior,
-entretanto, uma vez que o projeto esteja executado deve-se acessar o seguinte link.:
-
-https://localhost:5001/swagger/index.html
-
-## Testes Unitários, Integração e Arquiteturais
-
-A HelpDesk disponibiliza testes automatizados para garantir que o processo contempla as regras de negócio pré-definidas no requisito
-do projeto. Os testes são executados via Github CI/CD Pipeline conforme aprendemos durante o Tech Challenge 2.:
-
-![CI/CD Testes Pipeline](doc/assets/img/test_flow.png)
-
-Se preferir, os testes também podem ser executados localmente via dotnet CLI. Para isso rode os comandos abaixo.:
-```sh
-$ dotnet test tests/HelpDesk.ApiService.Application.UnitTests/HelpDesk.ApiService.Application.UnitTests.csproj --no-build --verbosity normal
-$ dotnet test tests/HelpDesk.ApiService.ArchitectureTests/HelpDesk.ApiService.ArchitectureTests.csproj --no-build --verbosity normal
-$ dotnet test tests/HelpDesk.ApiService.Api.IntegrationTests/HelpDesk.ApiService.Api.IntegrationTests.csproj --no-build --verbosity normal
+```bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
 ```
 
-Caso queira executar todos os projetos de teste, execute o comando:
+2. Verificar se o Ingress Nginx está em execução:
 
-```sh
-$ dotnet test TechChallenge.sln
+```bash
+kubectl get pods -n ingress-nginx
 ```
 
-Caso queria uma versão de resultado com mais detalhes, execute o seguinte comando:
+Verifique se os pods do Ingress Nginx estão em execução:
 
-```sh
-$ dotnet test --logger "console;verbosity=detailed" <arquivo_do_projeto_do_teste.csproj>
+```bash
+kubectl get pods -n ingress-nginx
 ```
 
-## Rastreabilidade com Logs
+## Passo 4: Configurar o Deploy dos Serviços
 
-Para acompanhamento de Logging estamos utilizando o Serilog, para a captura e armazenamento de logs de maneira estruturada o Seq,
-o que facilita a análise e a extração de insights a partir dos logs gerados pela aplicação.
+Após a criação do cluster e configuração do serviço de Ingress, podemos configurar/criar os componentes necessários para o deploy e orquestração do nosso projeto.
 
-Uma vez que o projeto executado, você pode conferir os logs através do Seq pelo seguinte link:
+Para isso, utilizaremos novamente a CLI `kubectl` para aplicar nossas configurações utilizando como base o arquivo de manifesto `deployment.yaml`.
 
-http://localhost:8081/
+Este arquivo contém diversas configurações pertinentes ao nosso deploy, estas poderiam estar em arquivos separados, mas com o intuito de facilitar a gestão e centralizar o processo de deploy todas as configurações estão presentes neste arquivo.
+
+As configurações contidas nesse arquivo estão separadas em blocos, cada bloco agrupa as configurações necessárias de cada componente, sendo eles:
+
+1. **pfx-secret.yaml**
+    > Cria o secret no k8s para armazenar o certificado SSL utilizado para criptografia de tokens JWT.
+2. **tls-secret.yaml**
+    > Cria o secret no k8s utilizado pelo Ingress nas configurações de TLS/HTTPS.
+3. **helpdesk-db-deployment.yaml**
+    > Configura o deploy do container de banco de dados SQL.
+4. **helpdesk-log.yaml**
+    > Configura o deploy do container do SEQ para ingestão de logs de aplicação.
+5. **helpdesk-api-deployment.yaml**
+    > Configura o deploy do container da HelpDesk.Api.
+6. **helpdesk-web-deployment.yaml**
+    > Configura o deploy do container da HelpDesk.Web.
+7. **helpdesk-ingress-http.yaml**
+    > Configura o serviço de Ingress para as requisições HTTP.
+8. **helpdesk-ingress-https.yaml**
+    > Configura o serviço de Ingress para as requisições HTTPS.
+
+Execute o comando a seguir para aplicar todas as configurações mencionadas acima:
+
+```bash
+kubectl apply -f k8s/kind/deployment.yaml
+```
+
+Para monitorar o processamento do deployment e provisionamentos dos services e pods, execute o comando:
+
+```bash
+watch 'kubectl get pod,svc,deployment,ingress -A'
+```
+
+## Passo 5: Acessando o Serviços
+
+Como estamos executando nosso projeto em um cluster K8S local, não será atribuído dinâmicamente um DNS para acesso público.
+
+Para conseguirmos acessar o nosso ponto de entrada sem a necessidade de ficar obtendo IPs, redirecionamento de portas ou inclusão de DNS nos hosts do nosso sistema, optamos um serviço público `nip.io` que automaticamente resolverá nossa requisição para nosso localhost.
+
+Para acessar os serviços configurados no cluster utilize as seguintes URLs:
+
+- HelpDesk.Logs: http://logs.helpdesk.127.0.0.1.nip.io
+- HelpDesk.Web: https://app.helpdesk.127.0.0.1.nip.io
+- HelpDesk.Api: https://api.helpdesk.127.0.0.1.nip.io/swagger
